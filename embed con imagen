@@ -1,0 +1,11 @@
+ if (message.content.startsWith(prefix +"pepe" )){
+  const embed = new Discord.MessageEmbed()
+  .setTitle("Pepe GIF")
+  .setAuthor(message.author.username, message.author.avatarURL)
+  .setColor(0x4aff00)
+  .setTimestamp()
+  .setImage("https://cdn.discordapp.com/attachments/576804681280389126/638760777997615124/spin.gif")
+  .setFooter("Bot hecho por SixPicks", 'https://cdn.discordapp.com/avatars/332613549081755648/ae6534ac890d466dd74d8ae5f4e5d430.png?size=2048');
+  message.channel.send({embed});
+
+}
