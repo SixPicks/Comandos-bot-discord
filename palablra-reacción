@@ -1,0 +1,3 @@
+ if (message.content === 'big') {
+    message.react('🍆');
+  }
