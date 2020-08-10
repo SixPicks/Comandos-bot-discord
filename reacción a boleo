@@ -1,0 +1,4 @@
+if (message.content === '=test') {
+  let Array = ['✅', '⛔']
+  message.react(Array[Math.floor(Math.random() * Array.length)]
+  )}
