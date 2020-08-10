@@ -1,0 +1,49 @@
+client.on('message', message => {
+  if(message.author.bot) return;
+  console.log(message.mentions);
+  if(message.content.toLowerCase().startsWith('=stats')) {
+    const args = message.content.split(' ');
+    console.log(args);
+    if(args.length > 2) {
+      message.channel.send(`Uso de el comando incorrecto: =stats | =stats <id de usuario> | =stats @meción`);
+    } else if(args.length === 2) {
+      const member = message.mentions.members.size === 1 ? 
+        message.mentions.members.first() :
+        message.guild.members.cache.get(args[1]);
+      if(member) {
+        const embed = new Discord.MessageEmbed()
+          .setAuthor(`${member.user.tag} (${member.id})`, member.user.displayAvatarURL())
+          .setThumbnail(member.user.displayAvatarURL())
+          .addField('Cuenta creado el:', member.user.createdAt.toLocaleString(), true)
+          .addField('Se unio el:', member.joinedAt, true)
+          .addField('Kickable:', member.kickable, false)
+          .addField('Canal de voz:', member.voice.channel ? member.voice.channel.name + `(${member.voice.channel.id})` : 'Ninguno')
+          .addField('Estado:', member.presence.status)
+          .setColor(0x4aff00)
+          .setFooter("Bot hecho por SixPicks", 'https://cdn.discordapp.com/avatars/332613549081755648/ae6534ac890d466dd74d8ae5f4e5d430.png?size=256')
+          .setDescription(`${member.roles.cache.map(role => role.toString()).join(' ')}`);
+        message.channel.send(embed);
+      } else {
+        message.channel.send(`No pude encontrar un miembro con la ID: ${args[1]}`);
+      }
+      
+    } else {
+      const { guild } = message;
+      const embed = new Discord.MessageEmbed()
+        .setAuthor(`${guild.name} (${guild.id})`, guild.iconURL())
+        .setThumbnail(guild.iconURL())
+        .addField('Creado el:', guild.createdAt.toLocaleString(), true)
+        .addField('Creador:', guild.owner.user.tag)
+        .addField('Miembros:', guild.memberCount, true)
+        .addField('Miembros (SIN BOTS):', guild.members.cache.filter(member => !member.user.bot).size, true)
+        .addField('BOTS:', guild.members.cache.filter(member => member.user.bot).size, true)
+        .addField('Canales:', guild.channels.cache.size, true)
+        .addField('Canales de texto:', guild.channels.cache.filter(ch => ch.type === 'text').size, true)
+        .addField('Canales de voz:', guild.channels.cache.filter(ch => ch.type === 'voice').size, true)
+        .setColor(0x4aff00)
+        .setFooter("Bot hecho por SixPicks", 'https://cdn.discordapp.com/avatars/332613549081755648/ae6534ac890d466dd74d8ae5f4e5d430.png?size=256')
+        .setDescription(`${guild.roles.cache.map(role => role.toString()).join(' ')}`);
+      message.channel.send(embed);
+    }
+  }
+});
